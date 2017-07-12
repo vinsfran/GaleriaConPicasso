@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.setAdapter(partyAdapter);
                 return true;
             case R.id.memory_adapter:
+                checkForPermission();
                 images.clear();
                 images.addAll(getImagesPath());
                 recyclerView.setAdapter(imagesAdapter);
@@ -86,16 +87,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean hasPermission() {
+    private void checkForPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL_MEMORY);
-            return false;
-        } else {
-            return true;
         }
     }
+
+    private boolean hasPermission(String permissionToCheck) {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, permissionToCheck);
+
+        return (permissionCheck == PackageManager.PERMISSION_GRANTED);
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -133,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
     public List<String> getImagesPath() {
         List<String> listOfAllImages = new ArrayList<>();
 
-        if (hasPermission()) {
+        if (hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
 
             Cursor cursor = getContentResolver()
-                    .query(MediaStore.Images.Media.INTERNAL_CONTENT_URI, columns, null, null, MediaStore.Images.Media._ID);
+                    .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, MediaStore.Images.Media._ID);
 
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
