@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="py.com.desapy.appbanca.microcredito.activitys.MicrocreditoAltaActivity">
+
+    <item
+        android:id="@+id/links_adapter"
+        android:title="Links"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/resources_adapter"
+        android:title="Resources"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/memory_adapter"
+        android:title="Memory"
+        app:showAsAction="ifRoom" />
+</menu>
